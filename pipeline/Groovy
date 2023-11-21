@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    
+    environment {
+        ANCHORE_ENGINE_URL = 'http://engine-api:8228/v1' 
+        ANCHORE_ENGINE_USER = 'anchore-test' 
+        ANCHORE_ENGINE_PASS = '123456' 
+        SONARQUBE_SCANNER_HOME = tool 'SonarQubeScanner' 
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Set Up Envorironment') {
+            steps{
+                script {
+                    def mvnHome = tool 'JDK11'
+                    env.PATH = "${mvnHome}/bin:${env.PATH}"
+                }
+            }   
+        }
+
+        stage('Clone Repository') {
+            steps {
+                git branch: 'develop' 'https://github.com/wllgomes/Projeto-Zallpy.git'
+            }
+        }
+
+        stage('Anchore Scan') {
+            steps {
+                script {
+                    def anchoreScanCommand = "anchore-cli --url ${ANCHORE_ENGINE_URL} --u ${ANCHORE_ENGINE_USER} --p ${ANCHORE_ENGINE_PASS} image add ${env.BUILD_TAG}"
+                    sh(anchoreScanCommand)
+                }
+            }
+        }
+
+        stage('Build Java Application') {
+            steps {
+                sh 'mvn clean install'  
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t nome-da-sua-imagem:tag .'
+            }
+        }
+    }
+}
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube') {
+                        sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
+    }
