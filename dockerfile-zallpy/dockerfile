@@ -1,0 +1,24 @@
+FROM openjdk:11-jre-slim
+LABEL org.opencontainers.image.title="Projeto java"
+LABEL org.opencontainers.image.description="Aplicação Java com suporte a monitoramento Prometheus"
+LABEL org.opencontainers.image.version="1.0"
+LABEL org.opencontainers.image.authors="William Lino Lopes Gomes"
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    gpg \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+RUN curl -s https://download.sysdig.com/DRAIOS-GPG-KEY.public | apt-key add - &&\
+    curl -s -o /etc/apt/sources.list.d/draios.list https://download.sysdig.com/stable/deb/draios.list &&\
+    apt-get update &&\
+    apt-get -y install sysdig
+WORKDIR /app
+COPY app-java11/app.jar /app/app.jar
+EXPOSE 8080
+CMD ["java", "-javaagent:/app/prometheus/jmx_prometheus_javaagent-0.15.0.jar=8080:/app/prometheus/config.yaml", "-jar", "/app/app.jar"]
+ COPY ./certs/database-cert.pem /app/database-cert.pem
+ ENV JAVA_OPTS="-Djavax.net.ssl.trustStore=/app/database-cert.pem -Djavax.net.ssl.trustStorePassword=Zallpy"
+CMD ["java", "-jar", "/app/app.jar"]
