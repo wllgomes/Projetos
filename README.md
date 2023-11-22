@@ -14,21 +14,29 @@ Foi utilizado a imagem base "openjdk:11jre-slim".
 
 # Configurações e Ferramentas utilizadas
 
-Timezone - Define o fuso horário para America/Sao-Paulo.
-Prometheus - Monitoramento de métricas.
-Pacotes adicionais - Instalação dos pacotes adicionais - curl, wget, gpg e net-tools.
-Sysdig - Ferramenta para troubleshooting, monitoramento e segurança.
-Certificado SSL - Adiciona um certificado SSL para conexão segura ao banco de dados.
-Diretório de Trabalho - Define o diretório de trabalho para /app
-Portas Expostas - Porta 8080 é exposta na rede do container.
-Cópia do JAR - Copia o arquivo JAR do aplicativo para o diretório /app
-Executando o Aplicativo - Executa o aplicaivo através da linha de comando java -jar app.jar.
+- Timezone - Define o fuso horário para America/Sao-Paulo.
 
-# Comandos para construir a imagem
+- Prometheus - Monitoramento de métricas.
 
-Para construir a imagem, execute o comando:
-bash 
-    docker run -d -p 8080:8080 zallpy-java:11 .
+- Pacotes adicionais - Instalação dos pacotes adicionais - curl, wget, gpg e net-tools.
+
+- Sysdig - Ferramenta para troubleshooting, monitoramento e segurança.
+
+- Certificado SSL - Adiciona um certificado SSL para conexão segura ao banco de dados.
+
+- Diretório de Trabalho - Define o diretório de trabalho para /app
+
+- Portas Expostas - Porta 8080 é exposta na rede do container.
+
+- Cópia do JAR - Copia o arquivo JAR do aplicativo para o diretório /app
+
+- Executando o Aplicativo - Executa o aplicaivo através da linha de comando java -jar app.jar.
+
+- Comandos para construir a imagem
+
+- Para construir a imagem, execute o comando:
+- bash 
+    - docker run -d -p 8080:8080 zallpy-java:11 .
 
 Este comando inicia o aplicativo Java com o agente Prometheus e a configuração específica.
 
