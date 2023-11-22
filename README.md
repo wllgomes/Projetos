@@ -116,8 +116,4 @@ William Lino Lopes Gomes
 
 # Versão da Imagem
 
-A versão da imagem é 1.0.
-
-# Licença 
-
-Este Dockerfile está sobe a licença MIT. 
+A versão da imagem é 1.0. 
