@@ -1,4 +1,4 @@
-# Projeto-Zallpy
+# Projeto
 
 Nesse projeto foi desenvolvido um Dockerfile que executa uma aplicação Java 11 e uma Pipeline scriptada em Groovy com orquestrador Jenkins. 
 
